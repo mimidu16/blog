@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Widget Articles avec recherche</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    /* Barre de recherche */
+    .search-wrapper {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 25px;
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .articles-widget {
+      max-width: 900px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .article-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease;
+    }
+
+    .article-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .article-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .article-content {
+      padding: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .article-content h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .article-content p {
+      font-size: 14px;
+      color: #555;
+      flex-grow: 1;
+    }
+
+    .cta {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: #0077cc;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .cta:hover {
+      background: #005fa3;
+    }
+
+    .no-result {
+      margin-top: 20px;
+      color: #999;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>📰 Derniers articles</h2>
+
+  <!-- Barre de recherche -->
+  <div class="search-wrapper">
+    <input type="text" class="search-bar" placeholder="Rechercher un article...">
+  </div>
+
+  <div class="articles-widget">
+    <!-- Article 1 -->
+    <div class="article-card">
+      <img src="https://openai.com/content/images/2024/06/chatgpt-apps.png" alt="ChatGPT apps">
+      <div class="article-content">
+        <h3>Nouvelles applis ChatGPT</h3>
+        <p>Découvrez comment ChatGPT évolue avec de nouvelles applications et intégrations puissantes...</p>
+        <a class="cta" href="https://openai.com/blog/chatgpt-apps" target="_blank">Lire l'article</a>
+      </div>
+    </div>
+
+    <!-- Article 2 -->
+    <div class="article-card">
+      <img src="https://blog.mozilla.org/wp-content/blogs.dir/278/files/2024/05/firefox-update.png" alt="Firefox Update">
+      <div class="article-content">
+        <h3>Mise à jour Firefox</h3>
+        <p>Firefox sort une nouvelle version avec des améliorations de sécurité et de performance...</p>
+        <a class="cta" href="https://blog.mozilla.org/en/products/firefox/firefox-release-2024/" target="_blank">Lire l'article</a>
+      </div>
+    </div>
+
+    <!-- Article 3 -->
+    <div class="article-card">
+      <img src="https://miro.medium.com/v2/resize:fit:1200/1*DYlVZnTebjHbH4td0wD3Vw.png" alt="IA et créativité">
+      <div class="article-content">
+        <h3>IA et créativité</h3>
+        <p>Un regard sur la manière dont l'intelligence artificielle influence la création artistique et les médias...</p>
+        <a class="cta" href="https://medium.com/topic/artificial-intelligence" target="_blank">Lire l'article</a>
+      </div>
+    </div>
+  </div>
+
+  <p class="no-result">❌ Aucun article trouvé</p>
+
+  <script>
+    const searchBar = document.querySelector('.search-bar');
+    const articleCards = document.querySelectorAll('.article-card');
+    const noResult = document.querySelector('.no-result');
+
+    searchBar.addEventListener('input', () => {
+      const query = searchBar.value.toLowerCase();
+      let found = false;
+
+      articleCards.forEach(card => {
+        const title = card.querySelector('h3').innerText.toLowerCase();
+        const excerpt = card.querySelector('p').innerText.toLowerCase();
+        if (title.includes(query) || excerpt.includes(query)) {
+          card.style.display = "flex";
+          found = true;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      noResult.style.display = found ? "none" : "block";
+    });
+  </script>
+</body>
+</html>
