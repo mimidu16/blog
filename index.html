@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Widget Articles avec recherche</title>
+  <title>Carrousel Blog 6 cartes</title>
   <style>
-    /* importer les polices Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Playfair+Display:wght@400;600&display=swap');
 
     body {
       font-family: Arial, sans-serif;
-      background: transparent; /* ✅ fond totalement transparent */
+      background: transparent;
       margin: 0;
       padding: 30px;
       display: flex;
@@ -30,32 +29,42 @@
       width: 100%;
       padding: 10px 15px;
       border: 1px solid #ddd;
-      border-radius: 8px; /* ✅ arrondi complet sans bouton */
+      border-radius: 8px;
       font-size: 16px;
       background: #fff;
       text-align: center;
       outline: none;
     }
 
-    .articles-widget {
-      max-width: 900px;
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    .carousel-container {
+      position: relative;
+      max-width: 860px; /* 3 cartes de 250px + 2*20px gap + padding */
+      margin: auto;
+      overflow: hidden;
+      padding: 0 60px;
+    }
+
+    .carousel-wrapper {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .carousel {
+      display: flex;
+      transition: transform 0.4s ease;
       gap: 20px;
-      background: transparent; /* ✅ widget transparent */
-      min-height: auto;
-      margin: 0;
-      padding: 0;
+      padding: 20px 0;
     }
 
     .article-card {
-      background: #fff; /* ✅ cartes restent blanches */
+      flex: 0 0 250px;
+      background: #fff;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       transition: transform 0.2s ease;
     }
 
@@ -71,16 +80,15 @@
 
     .article-content {
       padding: 15px;
-      flex-grow: 1;
       display: flex;
       flex-direction: column;
+      flex-grow: 1;
       text-align: left;
     }
 
     .article-content h3 {
       margin: 0 0 10px;
       font-size: 20px;
-      text-align: left;
       font-family: 'Playfair Display', serif;
       font-weight: 600;
     }
@@ -90,7 +98,6 @@
       color: #555;
       flex-grow: 1;
       font-family: 'DM Sans', sans-serif;
-      text-align: left;
     }
 
     .cta {
@@ -114,45 +121,101 @@
       color: #999;
       display: none;
     }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 28px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .arrow-left {
+      left: 10px;
+    }
+
+    .arrow-right {
+      right: 10px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Barre de recherche sans loupe -->
   <div class="search-wrapper">
     <input type="text" class="search-bar" placeholder="Rechercher un article...">
   </div>
 
-  <div class="articles-widget">
-    <!-- Article 1 -->
-    <div class="article-card">
-      <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="ChatGPT apps">
-      <div class="article-content">
-        <h3>Nouvelles applis ChatGPT</h3>
-        <p>Découvrez comment ChatGPT évolue avec de nouvelles applications et intégrations puissantes...</p>
-        <a class="cta" href="https://openai.com/blog/chatgpt-apps" target="_blank">Lire l'article</a>
+  <div class="carousel-container">
+    <button class="arrow arrow-left">&#8249;</button>
+    <div class="carousel-wrapper">
+      <div class="carousel" id="carousel">
+        <!-- Carte 1 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="ChatGPT apps">
+          <div class="article-content">
+            <h3>Nouvelles applis ChatGPT</h3>
+            <p>Découvrez comment ChatGPT évolue avec de nouvelles applications et intégrations puissantes...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
+        </div>
+        <!-- Carte 2 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Firefox Update">
+          <div class="article-content">
+            <h3>Mise à jour Firefox</h3>
+            <p>Firefox sort une nouvelle version avec des améliorations de sécurité et de performance...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
+        </div>
+        <!-- Carte 3 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="IA et créativité">
+          <div class="article-content">
+            <h3>IA et créativité</h3>
+            <p>Un regard sur la manière dont l'intelligence artificielle influence la création artistique et les médias...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
+        </div>
+        <!-- Carte 4 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 4">
+          <div class="article-content">
+            <h3>Article 4</h3>
+            <p>Petit aperçu du quatrième article pour tester le carrousel...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
+        </div>
+        <!-- Carte 5 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 5">
+          <div class="article-content">
+            <h3>Article 5</h3>
+            <p>Petit aperçu du cinquième article pour tester le carrousel...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
+        </div>
+        <!-- Carte 6 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 6">
+          <div class="article-content">
+            <h3>Article 6</h3>
+            <p>Petit aperçu du sixième article pour tester le carrousel...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- Article 2 -->
-    <div class="article-card">
-      <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Firefox Update">
-      <div class="article-content">
-        <h3>Mise à jour Firefox</h3>
-        <p>Firefox sort une nouvelle version avec des améliorations de sécurité et de performance...</p>
-        <a class="cta" href="https://blog.mozilla.org/en/products/firefox/firefox-release-2024/" target="_blank">Lire l'article</a>
-      </div>
-    </div>
-
-    <!-- Article 3 -->
-    <div class="article-card">
-      <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="IA et créativité">
-      <div class="article-content">
-        <h3>IA et créativité</h3>
-        <p>Un regard sur la manière dont l'intelligence artificielle influence la création artistique et les médias...</p>
-        <a class="cta" href="https://www.miguelvde.fr/actualites.html?news=4d4736f0-2b31-11f0-acb6-bfee59d880e2" target="_blank">Lire l'article</a>
-      </div>
-    </div>
+    <button class="arrow arrow-right">&#8250;</button>
   </div>
 
   <p class="no-result">❌ Aucun article trouvé</p>
@@ -162,12 +225,8 @@
     const articleCards = document.querySelectorAll('.article-card');
     const noResult = document.querySelector('.no-result');
 
-    // fonction pour normaliser le texte (ignore majuscules/accents)
     function normalizeText(str) {
-      return str
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/\p{Diacritic}/gu, "");
+      return str.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
     }
 
     function doSearch() {
@@ -183,7 +242,6 @@
       articleCards.forEach(card => {
         const title = normalizeText(card.querySelector('h3').innerText);
         const excerpt = normalizeText(card.querySelector('p').innerText);
-
         if (title.includes(query) || excerpt.includes(query)) {
           card.style.display = "flex";
           found = true;
@@ -199,9 +257,34 @@
     searchBar.addEventListener('keypress', e => {
       if (e.key === "Enter") doSearch();
     });
+
+    // Carrousel
+    const carousel = document.getElementById('carousel');
+    const leftArrow = document.querySelector('.arrow-left');
+    const rightArrow = document.querySelector('.arrow-right');
+    const cardWidth = 250 + 20; // largeur carte + gap
+    const visibleCards = 3;
+    let offset = 0;
+
+    rightArrow.addEventListener('click', () => {
+      const maxOffset = -(carousel.scrollWidth - cardWidth * visibleCards);
+      if (offset > maxOffset) {
+        offset -= cardWidth;
+        carousel.style.transform = `translateX(${offset}px)`;
+      }
+    });
+
+    leftArrow.addEventListener('click', () => {
+      if (offset < 0) {
+        offset += cardWidth;
+        carousel.style.transform = `translateX(${offset}px)`;
+      }
+    });
   </script>
+
 </body>
 </html>
+
 
 
 
