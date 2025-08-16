@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Widget Articles avec recherche</title>
+  <title>Widget Articles avec recherche stricte</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,11 +15,6 @@
       align-items: center;
     }
 
-    h2 {
-      margin-bottom: 15px;
-    }
-
-    /* Barre de recherche */
     .search-wrapper {
       width: 100%;
       max-width: 600px;
@@ -30,11 +25,30 @@
 
     .search-bar {
       width: 100%;
-      padding: 10px;
+      padding: 10px 15px;
       border: 1px solid #ddd;
-      border-radius: 8px;
+      border-radius: 8px 0 0 8px;
       font-size: 16px;
+      background: #fff;
       text-align: center;
+      outline: none;
+    }
+
+    .search-btn {
+      background: #818181;
+      border: none;
+      border-radius: 0 8px 8px 0;
+      padding: 0 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-btn img {
+      width: 20px;
+      height: 20px;
+      filter: invert(1);
     }
 
     .articles-widget {
@@ -43,6 +57,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
+      min-height: 400px;
     }
 
     .article-card {
@@ -70,11 +85,13 @@
       flex-grow: 1;
       display: flex;
       flex-direction: column;
+      text-align: justify;
     }
 
     .article-content h3 {
       margin: 0 0 10px;
       font-size: 18px;
+      text-align: center;
     }
 
     .article-content p {
@@ -87,7 +104,7 @@
       display: inline-block;
       margin-top: 15px;
       padding: 10px 15px;
-      background: #0077cc;
+      background: #818181;
       color: #fff;
       text-decoration: none;
       border-radius: 6px;
@@ -96,7 +113,7 @@
     }
 
     .cta:hover {
-      background: #005fa3;
+      background: #5f5f5f;
     }
 
     .no-result {
@@ -111,12 +128,15 @@
   <!-- Barre de recherche -->
   <div class="search-wrapper">
     <input type="text" class="search-bar" placeholder="Rechercher un article...">
+    <button class="search-btn">
+      <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="loupe">
+    </button>
   </div>
 
   <div class="articles-widget">
     <!-- Article 1 -->
-    <div class="article-card">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Des_olives_vertes_sur_leur_branche.jpg" alt="ChatGPT apps">
+    <div class="article-card" data-fulltext="ChatGPT évolue chaque jour avec de nouvelles applis, API et intégrations dans la productivité.">
+      <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="ChatGPT apps">
       <div class="article-content">
         <h3>Nouvelles applis ChatGPT</h3>
         <p>Découvrez comment ChatGPT évolue avec de nouvelles applications et intégrations puissantes...</p>
@@ -125,7 +145,7 @@
     </div>
 
     <!-- Article 2 -->
-    <div class="article-card">
+    <div class="article-card" data-fulltext="Firefox sort une nouvelle mise à jour mensuelle avec sécurité renforcée et meilleures performances.">
       <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Firefox Update">
       <div class="article-content">
         <h3>Mise à jour Firefox</h3>
@@ -135,7 +155,7 @@
     </div>
 
     <!-- Article 3 -->
-    <div class="article-card">
+    <div class="article-card" data-fulltext="L'intelligence artificielle influence la création artistique et les médias, chaque jour un peu plus.">
       <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="IA et créativité">
       <div class="article-content">
         <h3>IA et créativité</h3>
@@ -149,17 +169,21 @@
 
   <script>
     const searchBar = document.querySelector('.search-bar');
+    const searchBtn = document.querySelector('.search-btn');
     const articleCards = document.querySelectorAll('.article-card');
     const noResult = document.querySelector('.no-result');
 
-    searchBar.addEventListener('input', () => {
-      const query = searchBar.value.toLowerCase();
+    function doSearch() {
+      const query = searchBar.value.toLowerCase().trim();
       let found = false;
 
       articleCards.forEach(card => {
         const title = card.querySelector('h3').innerText.toLowerCase();
         const excerpt = card.querySelector('p').innerText.toLowerCase();
-        if (title.includes(query) || excerpt.includes(query)) {
+        const fulltext = card.dataset.fulltext.toLowerCase();
+
+        // Recherche stricte : l'article doit contenir le mot EXACT tapé
+        if (title.includes(query) || excerpt.includes(query) || fulltext.includes(query)) {
           card.style.display = "flex";
           found = true;
         } else {
@@ -168,10 +192,18 @@
       });
 
       noResult.style.display = found ? "none" : "block";
+    }
+
+    // recherche à la saisie
+    searchBar.addEventListener('input', doSearch);
+    // recherche au clic sur la loupe
+    searchBtn.addEventListener('click', doSearch);
+    // recherche avec "Entrée"
+    searchBar.addEventListener('keypress', e => {
+      if (e.key === "Enter") doSearch();
     });
   </script>
 </body>
-
 </html>
 
 
