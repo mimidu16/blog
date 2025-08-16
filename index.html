@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Widget Articles avec recherche stricte</title>
   <style>
+    /* importer les polices Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Playfair+Display:wght@400;600&display=swap');
+
     body {
       font-family: Arial, sans-serif;
       background: #f5f5f5;
@@ -85,19 +88,25 @@
       flex-grow: 1;
       display: flex;
       flex-direction: column;
-      text-align: justify;
+      text-align: left; /* alignement global à gauche */
     }
 
+    /* Titres : Playfair Display 20px alignés à gauche */
     .article-content h3 {
       margin: 0 0 10px;
-      font-size: 18px;
-      text-align: center;
+      font-size: 20px;
+      text-align: left;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
     }
 
+    /* Texte : DM Sans 16px aligné à gauche */
     .article-content p {
-      font-size: 14px;
+      font-size: 16px;
       color: #555;
       flex-grow: 1;
+      font-family: 'DM Sans', sans-serif;
+      text-align: left;
     }
 
     .cta {
@@ -135,7 +144,7 @@
 
   <div class="articles-widget">
     <!-- Article 1 -->
-    <div class="article-card" data-fulltext="ChatGPT évolue chaque jour avec de nouvelles applis, API et intégrations dans la productivité.">
+    <div class="article-card">
       <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="ChatGPT apps">
       <div class="article-content">
         <h3>Nouvelles applis ChatGPT</h3>
@@ -145,7 +154,7 @@
     </div>
 
     <!-- Article 2 -->
-    <div class="article-card" data-fulltext="Firefox sort une nouvelle mise à jour mensuelle avec sécurité renforcée et meilleures performances.">
+    <div class="article-card">
       <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Firefox Update">
       <div class="article-content">
         <h3>Mise à jour Firefox</h3>
@@ -155,7 +164,7 @@
     </div>
 
     <!-- Article 3 -->
-    <div class="article-card" data-fulltext="L'intelligence artificielle influence la création artistique et les médias, chaque jour un peu plus.">
+    <div class="article-card">
       <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="IA et créativité">
       <div class="article-content">
         <h3>IA et créativité</h3>
@@ -173,16 +182,43 @@
     const articleCards = document.querySelectorAll('.article-card');
     const noResult = document.querySelector('.no-result');
 
+    // 🔥 Aller chercher automatiquement le contenu complet des articles
+    articleCards.forEach(card => {
+      const link = card.querySelector('.cta').href;
+
+      fetch(link)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+
+          // on récupère le texte complet du body
+          const fullText = doc.body.innerText.toLowerCase();
+
+          // on stocke dans data-fulltext
+          card.dataset.fulltext = fullText;
+        })
+        .catch(err => {
+          console.error("Impossible de récupérer l'article :", link, err);
+          card.dataset.fulltext = ""; // évite les erreurs
+        });
+    });
+
     function doSearch() {
       const query = searchBar.value.toLowerCase().trim();
       let found = false;
 
+      if (query.length === 0) {
+        articleCards.forEach(card => card.style.display = "flex");
+        noResult.style.display = "none";
+        return;
+      }
+
       articleCards.forEach(card => {
         const title = card.querySelector('h3').innerText.toLowerCase();
         const excerpt = card.querySelector('p').innerText.toLowerCase();
-        const fulltext = card.dataset.fulltext.toLowerCase();
+        const fulltext = (card.dataset.fulltext || "").toLowerCase();
 
-        // Recherche stricte : l'article doit contenir le mot EXACT tapé
         if (title.includes(query) || excerpt.includes(query) || fulltext.includes(query)) {
           card.style.display = "flex";
           found = true;
@@ -194,17 +230,16 @@
       noResult.style.display = found ? "none" : "block";
     }
 
-    // recherche à la saisie
     searchBar.addEventListener('input', doSearch);
-    // recherche au clic sur la loupe
     searchBtn.addEventListener('click', doSearch);
-    // recherche avec "Entrée"
     searchBar.addEventListener('keypress', e => {
       if (e.key === "Enter") doSearch();
     });
   </script>
 </body>
 </html>
+
+
 
 
 
