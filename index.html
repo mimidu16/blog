@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Widget Articles avec recherche stricte</title>
+  <title>Widget Articles avec recherche</title>
   <style>
     /* importer les polices Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Playfair+Display:wght@400;600&display=swap');
 
     body {
       font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      background: transparent; /* ✅ fond totalement transparent */
       margin: 0;
       padding: 30px;
       display: flex;
@@ -60,11 +60,14 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
-      min-height: 400px;
+      background: transparent; /* ✅ widget transparent */
+      min-height: auto;        /* pas de hauteur forcée */
+      margin: 0;
+      padding: 0;
     }
 
     .article-card {
-      background: #fff;
+      background: #fff; /* ✅ cartes restent blanches */
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       overflow: hidden;
@@ -182,30 +185,16 @@
     const articleCards = document.querySelectorAll('.article-card');
     const noResult = document.querySelector('.no-result');
 
-    // 🔥 Aller chercher automatiquement le contenu complet des articles
-    articleCards.forEach(card => {
-      const link = card.querySelector('.cta').href;
-
-      fetch(link)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, "text/html");
-
-          // on récupère le texte complet du body
-          const fullText = doc.body.innerText.toLowerCase();
-
-          // on stocke dans data-fulltext
-          card.dataset.fulltext = fullText;
-        })
-        .catch(err => {
-          console.error("Impossible de récupérer l'article :", link, err);
-          card.dataset.fulltext = ""; // évite les erreurs
-        });
-    });
+    // fonction pour normaliser le texte (ignore majuscules/accents)
+    function normalizeText(str) {
+      return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "");
+    }
 
     function doSearch() {
-      const query = searchBar.value.toLowerCase().trim();
+      const query = normalizeText(searchBar.value.trim());
       let found = false;
 
       if (query.length === 0) {
@@ -215,11 +204,10 @@
       }
 
       articleCards.forEach(card => {
-        const title = card.querySelector('h3').innerText.toLowerCase();
-        const excerpt = card.querySelector('p').innerText.toLowerCase();
-        const fulltext = (card.dataset.fulltext || "").toLowerCase();
+        const title = normalizeText(card.querySelector('h3').innerText);
+        const excerpt = normalizeText(card.querySelector('p').innerText);
 
-        if (title.includes(query) || excerpt.includes(query) || fulltext.includes(query)) {
+        if (title.includes(query) || excerpt.includes(query)) {
           card.style.display = "flex";
           found = true;
         } else {
@@ -238,6 +226,8 @@
   </script>
 </body>
 </html>
+
+
 
 
 
