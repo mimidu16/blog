@@ -15,13 +15,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      overflow-x: hidden; /* ✅ empêche le scroll horizontal global */
+      overflow-x: hidden;
     }
 
     /* Partie 1 : Barre de recherche */
     .search-wrapper {
       width: 100%;
-      max-width: 860px; /* ✅ même largeur que le carrousel */
+      max-width: 860px;
       display: flex;
       justify-content: center;
       margin-bottom: 25px;
@@ -41,16 +41,9 @@
     /* Partie 2 : Carrousel */
     .carousel-container {
       position: relative;
-      max-width: 860px; /* 3 cartes de 250px + gaps */
+      max-width: 860px;
       margin: auto;
-      overflow: hidden; /* ✅ seule la zone des cartes gère le scroll */
-      padding: 0 60px;
-    }
-
-    .carousel-wrapper {
-      display: flex;
-      align-items: center;
-      position: relative;
+      overflow: hidden;
     }
 
     .carousel {
@@ -59,7 +52,6 @@
       gap: 20px;
       padding: 20px 0;
 
-      /* ✅ swipe mobile */
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
@@ -74,7 +66,7 @@
       flex-direction: column;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       transition: transform 0.2s ease;
-      scroll-snap-align: start; /* ✅ aligne les cartes au swipe */
+      scroll-snap-align: start;
     }
 
     .article-card:hover {
@@ -131,28 +123,25 @@
       display: none;
     }
 
-    /* Flèches navigation */
-    .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 28px;
-      background: none; /* ✅ pas de fond gris */
-      color: #818181;   /* ✅ flèches grises */
-      border: none;
-      cursor: pointer;
+    /* Pagination (barre en bas) */
+    .pagination {
       display: flex;
-      align-items: center;
       justify-content: center;
-      z-index: 2;
+      margin-top: 15px;
+      gap: 8px;
     }
 
-    .arrow-left {
-      left: 0;
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ccc;
+      transition: background 0.3s, transform 0.3s;
     }
 
-    .arrow-right {
-      right: 0;
+    .dot.active {
+      background: #818181;
+      transform: scale(1.2);
     }
   </style>
 </head>
@@ -165,66 +154,64 @@
 
   <!-- Partie 2 : Carrousel -->
   <div class="carousel-container">
-    <button class="arrow arrow-left">&#8249;</button>
-    <div class="carousel-wrapper">
-      <div class="carousel" id="carousel">
-        <!-- Carte 1 -->
-        <div class="article-card">
-          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="ChatGPT apps">
-          <div class="article-content">
-            <h3>Article 1</h3>
-            <p>Petit aperçu du sixième article pour tester le carrousel...</p>
-            <a class="cta" href="#" target="_blank">Lire l'article</a>
-          </div>
+    <div class="carousel" id="carousel">
+      <!-- Carte 1 -->
+      <div class="article-card">
+        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="ChatGPT apps">
+        <div class="article-content">
+          <h3>Article 1</h3>
+          <p>Petit aperçu du premier article pour tester le carrousel...</p>
+          <a class="cta" href="#" target="_blank">Lire l'article</a>
         </div>
-        <!-- Carte 2 -->
-        <div class="article-card">
-          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Firefox Update">
-          <div class="article-content">
-            <h3>Article 2</h3>
-            <p>Petit aperçu du sixième article pour tester le carrousel...</p>
-            <a class="cta" href="#" target="_blank">Lire l'article</a>
-          </div>
+      </div>
+      <!-- Carte 2 -->
+      <div class="article-card">
+        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Firefox Update">
+        <div class="article-content">
+          <h3>Article 2</h3>
+          <p>Petit aperçu du deuxième article pour tester le carrousel...</p>
+          <a class="cta" href="#" target="_blank">Lire l'article</a>
         </div>
-        <!-- Carte 3 -->
-        <div class="article-card">
-          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="IA et créativité">
-          <div class="article-content">
-            <h3>Article 3</h3>
-            <p>Petit aperçu du sixième article pour tester le carrousel...</p>
-            <a class="cta" href="#" target="_blank">Lire l'article</a>
-          </div>
+      </div>
+      <!-- Carte 3 -->
+      <div class="article-card">
+        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="IA et créativité">
+        <div class="article-content">
+          <h3>Article 3</h3>
+          <p>Petit aperçu du troisième article pour tester le carrousel...</p>
+          <a class="cta" href="#" target="_blank">Lire l'article</a>
         </div>
-        <!-- Carte 4 -->
-        <div class="article-card">
-          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 4">
-          <div class="article-content">
-            <h3>Article 4</h3>
-            <p>Petit aperçu du quatrième article pour tester le carrousel...</p>
-            <a class="cta" href="#" target="_blank">Lire l'article</a>
-          </div>
+      </div>
+      <!-- Carte 4 -->
+      <div class="article-card">
+        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 4">
+        <div class="article-content">
+          <h3>Article 4</h3>
+          <p>Petit aperçu du quatrième article pour tester le carrousel...</p>
+          <a class="cta" href="#" target="_blank">Lire l'article</a>
         </div>
-        <!-- Carte 5 -->
-        <div class="article-card">
-          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 5">
-          <div class="article-content">
-            <h3>Article 5</h3>
-            <p>Petit aperçu du cinquième article pour tester le carrousel...</p>
-            <a class="cta" href="#" target="_blank">Lire l'article</a>
-          </div>
+      </div>
+      <!-- Carte 5 -->
+      <div class="article-card">
+        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 5">
+        <div class="article-content">
+          <h3>Article 5</h3>
+          <p>Petit aperçu du cinquième article pour tester le carrousel...</p>
+          <a class="cta" href="#" target="_blank">Lire l'article</a>
         </div>
-        <!-- Carte 6 -->
-        <div class="article-card">
-          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 6">
-          <div class="article-content">
-            <h3>Article 6</h3>
-            <p>Petit aperçu du sixième article pour tester le carrousel...</p>
-            <a class="cta" href="#" target="_blank">Lire l'article</a>
-          </div>
+      </div>
+      <!-- Carte 6 -->
+      <div class="article-card">
+        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 6">
+        <div class="article-content">
+          <h3>Article 6</h3>
+          <p>Petit aperçu du sixième article pour tester le carrousel...</p>
+          <a class="cta" href="#" target="_blank">Lire l'article</a>
         </div>
       </div>
     </div>
-    <button class="arrow arrow-right">&#8250;</button>
+    <!-- Pagination -->
+    <div class="pagination" id="pagination"></div>
   </div>
 
   <p class="no-result">❌ Aucun article trouvé</p>
@@ -233,6 +220,9 @@
     const searchBar = document.querySelector('.search-bar');
     const articleCards = document.querySelectorAll('.article-card');
     const noResult = document.querySelector('.no-result');
+    const carousel = document.getElementById('carousel');
+    const pagination = document.getElementById('pagination');
+    const visibleCards = 3;
 
     function normalizeText(str) {
       return str.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
@@ -267,32 +257,31 @@
       if (e.key === "Enter") doSearch();
     });
 
-    // Carrousel
-    const carousel = document.getElementById('carousel');
-    const leftArrow = document.querySelector('.arrow-left');
-    const rightArrow = document.querySelector('.arrow-right');
-    const cardWidth = 250 + 20; // largeur carte + gap
-    const visibleCards = 3;
-    let offset = 0;
+    // Pagination dots
+    const totalPages = Math.ceil(articleCards.length / visibleCards);
+    for (let i = 0; i < totalPages; i++) {
+      const dot = document.createElement("div");
+      dot.classList.add("dot");
+      if (i === 0) dot.classList.add("active");
+      pagination.appendChild(dot);
+    }
 
-    rightArrow.addEventListener('click', () => {
-      const maxOffset = -(carousel.scrollWidth - cardWidth * visibleCards);
-      if (offset > maxOffset) {
-        offset -= cardWidth;
-        carousel.style.transform = `translateX(${offset}px)`;
-      }
-    });
+    const dots = document.querySelectorAll(".dot");
 
-    leftArrow.addEventListener('click', () => {
-      if (offset < 0) {
-        offset += cardWidth;
-        carousel.style.transform = `translateX(${offset}px)`;
-      }
-    });
+    function updateDots() {
+      const scrollLeft = carousel.scrollLeft;
+      const cardWidth = articleCards[0].offsetWidth + 20;
+      const pageIndex = Math.round(scrollLeft / (cardWidth * visibleCards));
+      dots.forEach((d, i) => d.classList.toggle("active", i === pageIndex));
+    }
+
+    carousel.addEventListener("scroll", updateDots);
   </script>
 
 </body>
 </html>
+
+
 
 
 
