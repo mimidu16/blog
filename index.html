@@ -24,7 +24,7 @@
       max-width: 860px;
       display: flex;
       justify-content: center;
-      margin-bottom: 10px; /* réduit l'espace avec le carrousel */
+      margin-bottom: 10px;
     }
 
     .search-bar {
@@ -50,8 +50,7 @@
       display: flex;
       transition: transform 0.4s ease;
       gap: 20px;
-      padding: 20px 0;
-
+      padding: 20px 10px; /* ✅ marge pour éviter de couper les cartes */
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
@@ -59,6 +58,7 @@
 
     .article-card {
       flex: 0 0 250px;
+      min-width: 250px; /* ✅ empêche compression sur mobile */
       background: #fff;
       border-radius: 12px;
       overflow: hidden;
@@ -123,12 +123,12 @@
       display: none;
     }
 
-    /* ✅ Pagination sans barre grise */
+    /* Pagination sans barre grise */
     .pagination {
       display: flex;
       justify-content: center;
       margin-top: 15px;
-      gap: 8px; /* optionnel : espace entre les points si tu en remets */
+      gap: 8px;
     }
   </style>
 </head>
@@ -144,7 +144,7 @@
     <div class="carousel" id="carousel">
       <!-- Carte 1 -->
       <div class="article-card">
-        <img src="https://i.postimg.cc/Y0MtX1MW/image-blog-kiween.png" alt="ChatGPT apps">
+        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="ChatGPT apps">
         <div class="article-content">
           <h3>Article 1</h3>
           <p>Petit aperçu du premier article pour tester le carrousel...</p>
@@ -153,7 +153,7 @@
       </div>
       <!-- Carte 2 -->
       <div class="article-card">
-        <img src="https://i.postimg.cc/Y0MtX1MW/image-blog-kiween.png" alt="Firefox Update">
+        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Firefox Update">
         <div class="article-content">
           <h3>Article 2</h3>
           <p>Petit aperçu du deuxième article pour tester le carrousel...</p>
@@ -162,7 +162,7 @@
       </div>
       <!-- Carte 3 -->
       <div class="article-card">
-        <img src="https://i.postimg.cc/Y0MtX1MW/image-blog-kiween.png" alt="IA et créativité">
+        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="IA et créativité">
         <div class="article-content">
           <h3>Article 3</h3>
           <p>Petit aperçu du troisième article pour tester le carrousel...</p>
@@ -171,7 +171,7 @@
       </div>
       <!-- Carte 4 -->
       <div class="article-card">
-        <img src="https://i.postimg.cc/Y0MtX1MW/image-blog-kiween.png" alt="Article 4">
+        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 4">
         <div class="article-content">
           <h3>Article 4</h3>
           <p>Petit aperçu du quatrième article pour tester le carrousel...</p>
@@ -180,7 +180,7 @@
       </div>
       <!-- Carte 5 -->
       <div class="article-card">
-        <img src="https://i.postimg.cc/Y0MtX1MW/image-blog-kiween.png" alt="Article 5">
+        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 5">
         <div class="article-content">
           <h3>Article 5</h3>
           <p>Petit aperçu du cinquième article pour tester le carrousel...</p>
@@ -189,7 +189,7 @@
       </div>
       <!-- Carte 6 -->
       <div class="article-card">
-        <img src="https://i.postimg.cc/Y0MtX1MW/image-blog-kiween.png" alt="Article 6">
+        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 6">
         <div class="article-content">
           <h3>Article 6</h3>
           <p>Petit aperçu du sixième article pour tester le carrousel...</p>
@@ -201,7 +201,7 @@
     <div class="pagination" id="pagination"></div>
   </div>
 
-  <p class="no-result">Aucun article trouvé</p>
+  <p class="no-result">❌ Aucun article trouvé</p>
 
   <script>
     const searchBar = document.querySelector('.search-bar');
@@ -244,6 +244,8 @@
 
 </body>
 </html>
+
+
 
 
 
