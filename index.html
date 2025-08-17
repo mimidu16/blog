@@ -15,11 +15,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      overflow-x: hidden; /* ✅ empêche le scroll horizontal global */
     }
 
+    /* Partie 1 : Barre de recherche */
     .search-wrapper {
       width: 100%;
-      max-width: 600px;
+      max-width: 860px; /* ✅ même largeur que le carrousel */
       display: flex;
       justify-content: center;
       margin-bottom: 25px;
@@ -36,11 +38,12 @@
       outline: none;
     }
 
+    /* Partie 2 : Carrousel */
     .carousel-container {
       position: relative;
-      max-width: 860px; /* 3 cartes de 250px + 2*20px gap + padding */
+      max-width: 860px; /* 3 cartes de 250px + gaps */
       margin: auto;
-      overflow: hidden;
+      overflow: hidden; /* ✅ seule la zone des cartes gère le scroll */
       padding: 0 60px;
     }
 
@@ -55,6 +58,11 @@
       transition: transform 0.4s ease;
       gap: 20px;
       padding: 20px 0;
+
+      /* ✅ swipe mobile */
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
     }
 
     .article-card {
@@ -66,6 +74,7 @@
       flex-direction: column;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       transition: transform 0.2s ease;
+      scroll-snap-align: start; /* ✅ aligne les cartes au swipe */
     }
 
     .article-card:hover {
@@ -122,17 +131,15 @@
       display: none;
     }
 
+    /* Flèches navigation */
     .arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       font-size: 28px;
-      background: rgba(0,0,0,0.6);
-      color: white;
+      background: none; /* ✅ pas de fond gris */
+      color: #818181;   /* ✅ flèches grises */
       border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -141,20 +148,22 @@
     }
 
     .arrow-left {
-      left: 10px;
+      left: 0;
     }
 
     .arrow-right {
-      right: 10px;
+      right: 0;
     }
   </style>
 </head>
 <body>
 
+  <!-- Partie 1 : Search -->
   <div class="search-wrapper">
     <input type="text" class="search-bar" placeholder="Rechercher un article...">
   </div>
 
+  <!-- Partie 2 : Carrousel -->
   <div class="carousel-container">
     <button class="arrow arrow-left">&#8249;</button>
     <div class="carousel-wrapper">
@@ -284,6 +293,7 @@
 
 </body>
 </html>
+
 
 
 
