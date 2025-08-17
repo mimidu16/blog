@@ -43,22 +43,21 @@
       position: relative;
       max-width: 860px;
       margin: auto;
-      overflow: hidden;
+      overflow-x: auto; /* ✅ le container scrolle horizontalement */
+      -webkit-overflow-scrolling: touch;
     }
 
     .carousel {
       display: flex;
-      transition: transform 0.4s ease;
       gap: 20px;
-      padding: 20px 10px; /* ✅ marge pour éviter de couper les cartes */
-      overflow-x: auto;
+      padding: 20px 10px;
+      width: max-content; /* ✅ largeur dynamique selon le nombre de cartes */
       scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
     }
 
     .article-card {
       flex: 0 0 250px;
-      min-width: 250px; /* ✅ empêche compression sur mobile */
+      min-width: 250px; /* ✅ garde une largeur stable */
       background: #fff;
       border-radius: 12px;
       overflow: hidden;
@@ -244,6 +243,7 @@
 
 </body>
 </html>
+
 
 
 
