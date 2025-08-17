@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Carrousel Blog 6 cartes</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Playfair+Display:wght@400;600&display=swap');
 
+    /* Empêche le “drag” horizontal de la page, laisse le scroll horizontal seulement au carrousel */
     body {
       font-family: Arial, sans-serif;
       background: transparent;
@@ -16,12 +17,20 @@
       flex-direction: column;
       align-items: center;
       overflow-x: hidden;
+      touch-action: pan-y; /* ✅ pas de pan horizontal sur la page */
+    }
+
+    /* Wrapper global pour verrouiller la largeur et éviter tout décalage */
+    .blog-widget {
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      overflow: hidden; /* ✅ rien ne déborde latéralement */
     }
 
     /* Partie 1 : Barre de recherche */
     .search-wrapper {
       width: 100%;
-      max-width: 860px;
       display: flex;
       justify-content: center;
       margin-bottom: 10px;
@@ -41,23 +50,24 @@
     /* Partie 2 : Carrousel */
     .carousel-container {
       position: relative;
-      max-width: 860px;
-      margin: auto;
-      overflow-x: auto; /* ✅ seul le carrousel scrolle */
+      width: 100%;            /* ✅ prend toute la largeur dispo */
+      margin: 0 auto;
+      overflow-x: auto;       /* ✅ seul élément qui scrolle horizontalement */
       -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain; /* ✅ empêche le scroll chaining */
+      scroll-snap-type: x mandatory;
     }
 
     .carousel {
       display: flex;
       gap: 20px;
       padding: 20px 10px;
-      width: max-content; /* ✅ largeur dynamique */
-      scroll-snap-type: x mandatory;
+      width: max-content;     /* ✅ s’étend selon le nb de cartes */
     }
 
     .article-card {
       flex: 0 0 250px;
-      min-width: 250px;
+      min-width: 250px;       /* ✅ largeur stable, surtout mobile */
       background: #fff;
       border-radius: 12px;
       overflow: hidden;
@@ -68,9 +78,7 @@
       scroll-snap-align: start;
     }
 
-    .article-card:hover {
-      transform: translateY(-5px);
-    }
+    .article-card:hover { transform: translateY(-5px); }
 
     .article-card img {
       width: 100%;
@@ -111,98 +119,99 @@
       text-align: center;
       transition: background 0.2s;
     }
-
-    .cta:hover {
-      background: #5f5f5f;
-    }
+    .cta:hover { background: #5f5f5f; }
 
     .no-result {
       margin-top: 20px;
       color: #999;
       display: none;
+      text-align: center;
     }
 
-    /* Pagination FIXE */
+    /* ✅ Pagination FIXE (hors du conteneur qui scrolle) */
     .pagination {
       display: flex;
       justify-content: center;
-      margin-top: 15px;
       gap: 8px;
-      position: relative; /* ✅ reste toujours sous le carrousel */
+      margin-top: 15px;
+      position: relative; /* reste sagement sous le carrousel */
+      width: 100%;
     }
   </style>
 </head>
 <body>
 
-  <!-- Partie 1 : Search -->
-  <div class="search-wrapper">
-    <input type="text" class="search-bar" placeholder="Rechercher un article...">
-  </div>
+  <div class="blog-widget">
+    <!-- Partie 1 : Search -->
+    <div class="search-wrapper">
+      <input type="text" class="search-bar" placeholder="Rechercher un article...">
+    </div>
 
-  <!-- Partie 2 : Carrousel -->
-  <div class="carousel-container">
-    <div class="carousel" id="carousel">
-      <!-- Carte 1 -->
-      <div class="article-card">
-        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="ChatGPT apps">
-        <div class="article-content">
-          <h3>Article 1</h3>
-          <p>Petit aperçu du premier article pour tester le carrousel...</p>
-          <a class="cta" href="#" target="_blank">Lire l'article</a>
+    <!-- Partie 2 : Carrousel (le SEUL qui scrolle horizontalement) -->
+    <div class="carousel-container" id="carouselContainer">
+      <div class="carousel" id="carousel">
+        <!-- Carte 1 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="ChatGPT apps">
+          <div class="article-content">
+            <h3>Article 1</h3>
+            <p>Petit aperçu du premier article pour tester le carrousel...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
         </div>
-      </div>
-      <!-- Carte 2 -->
-      <div class="article-card">
-        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Firefox Update">
-        <div class="article-content">
-          <h3>Article 2</h3>
-          <p>Petit aperçu du deuxième article pour tester le carrousel...</p>
-          <a class="cta" href="#" target="_blank">Lire l'article</a>
+        <!-- Carte 2 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Firefox Update">
+          <div class="article-content">
+            <h3>Article 2</h3>
+            <p>Petit aperçu du deuxième article pour tester le carrousel...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
         </div>
-      </div>
-      <!-- Carte 3 -->
-      <div class="article-card">
-        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="IA et créativité">
-        <div class="article-content">
-          <h3>Article 3</h3>
-          <p>Petit aperçu du troisième article pour tester le carrousel...</p>
-          <a class="cta" href="#" target="_blank">Lire l'article</a>
+        <!-- Carte 3 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="IA et créativité">
+          <div class="article-content">
+            <h3>Article 3</h3>
+            <p>Petit aperçu du troisième article pour tester le carrousel...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
         </div>
-      </div>
-      <!-- Carte 4 -->
-      <div class="article-card">
-        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 4">
-        <div class="article-content">
-          <h3>Article 4</h3>
-          <p>Petit aperçu du quatrième article pour tester le carrousel...</p>
-          <a class="cta" href="#" target="_blank">Lire l'article</a>
+        <!-- Carte 4 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 4">
+          <div class="article-content">
+            <h3>Article 4</h3>
+            <p>Petit aperçu du quatrième article pour tester le carrousel...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
         </div>
-      </div>
-      <!-- Carte 5 -->
-      <div class="article-card">
-        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 5">
-        <div class="article-content">
-          <h3>Article 5</h3>
-          <p>Petit aperçu du cinquième article pour tester le carrousel...</p>
-          <a class="cta" href="#" target="_blank">Lire l'article</a>
+        <!-- Carte 5 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 5">
+          <div class="article-content">
+            <h3>Article 5</h3>
+            <p>Petit aperçu du cinquième article pour tester le carrousel...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
         </div>
-      </div>
-      <!-- Carte 6 -->
-      <div class="article-card">
-        <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 6">
-        <div class="article-content">
-          <h3>Article 6</h3>
-          <p>Petit aperçu du sixième article pour tester le carrousel...</p>
-          <a class="cta" href="#" target="_blank">Lire l'article</a>
+        <!-- Carte 6 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 6">
+          <div class="article-content">
+            <h3>Article 6</h3>
+            <p>Petit aperçu du sixième article pour tester le carrousel...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- ✅ Pagination FIXE sous le carrousel -->
+    <div class="pagination" id="pagination"></div>
+
+    <p class="no-result">❌ Aucun article trouvé</p>
   </div>
-
-  <!-- ✅ Pagination en dehors du container scrollable -->
-  <div class="pagination" id="pagination"></div>
-
-  <p class="no-result">❌ Aucun article trouvé</p>
 
   <script>
     const searchBar = document.querySelector('.search-bar');
@@ -217,7 +226,7 @@
       const query = normalizeText(searchBar.value.trim());
       let found = false;
 
-      if (query.length === 0) {
+      if (!query.length) {
         articleCards.forEach(card => card.style.display = "flex");
         noResult.style.display = "none";
         return;
@@ -238,13 +247,12 @@
     }
 
     searchBar.addEventListener('input', doSearch);
-    searchBar.addEventListener('keypress', e => {
-      if (e.key === "Enter") doSearch();
-    });
+    searchBar.addEventListener('keypress', e => { if (e.key === "Enter") doSearch(); });
   </script>
-
 </body>
 </html>
+
+
 
 
 
